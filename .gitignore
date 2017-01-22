@@ -1,3 +1,11 @@
+*.user
+*.ncb
+*.suo
+*.sdf
+Debug/
+Release/
+x64/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
