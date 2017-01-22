@@ -16,7 +16,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	int ret = 0;
 	//ret = log_init(0,4,1,"");
-	ret = log_init(0,0,1,("..\\configfile\\log4cplus.properties"));
+	//ret = log_init(0,0,1,("..\\configfile\\log4cplus.properties"));
+	ret = log_init(0,0,1,("log4cplus.properties"));
 	//ret = log_init();
 	assert(ret == 0);
 	LOG_DEBUG("this is debug info¼ì²â.");

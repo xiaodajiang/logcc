@@ -135,14 +135,14 @@ int log_init(const char* loggerName, int appenderType, int isLayout, const char*
 {
 	log4cplus::initialize();
 	g_logger = Logger::getRoot();
-
+	
 	/* create log object */
 	if(scriptFile && strlen(scriptFile) > 0){
 		if(access(scriptFile, 0) != -1){
 			//PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(".\log4cplus.properties"));
 			const log4cplus::tstring tsScriptFile = LOG4CPLUS_C_STR_TO_TSTRING(scriptFile);
 			PropertyConfigurator::doConfigure(tsScriptFile);
-			LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start."));
+			//LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start."));
 			return 0;
 		}
 		return -1;
@@ -209,7 +209,7 @@ int log_init(const char* loggerName, int appenderType, int isLayout, const char*
 		return -1;
 	} 
 
-	LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start.")); 
+	LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start."));
 	return 0;
 }
 
