@@ -68,6 +68,7 @@ using namespace log4cplus::helpers;
 
 #define LOG_PATTERN LOG_PATTERN_3
 
+bool logging_started = false;
 Logger g_logger;
 #define LOG_OBJ g_logger//Logger::getRoot()
 
@@ -133,6 +134,9 @@ static void fatal(const char* msg)
 
 int log_init(const char* loggerName, int appenderType, int isLayout, const char* scriptFile)
 {
+	if (logging_started)
+		return 0;
+
 	log4cplus::initialize();
 	g_logger = Logger::getRoot();
 	
@@ -143,6 +147,7 @@ int log_init(const char* loggerName, int appenderType, int isLayout, const char*
 			const log4cplus::tstring tsScriptFile = LOG4CPLUS_C_STR_TO_TSTRING(scriptFile);
 			PropertyConfigurator::doConfigure(tsScriptFile);
 			//LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start."));
+			logging_started = true;
 			return 0;
 		}
 		return -1;
@@ -210,6 +215,7 @@ int log_init(const char* loggerName, int appenderType, int isLayout, const char*
 	} 
 
 	LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Start."));
+	logging_started = true;
 	return 0;
 }
 
@@ -217,6 +223,7 @@ int log_deinit()
 {
 	LOG4CPLUS_INFO(g_logger, LOG4CPLUS_TEXT("Log System Stop."));
 	log4cplus::Logger::shutdown();
+	logging_started = false;
 	return 0;
 }
 
@@ -338,7 +345,7 @@ void log_trace_w(const char* file, int line, int level, const wchar_t* format, .
 void log_debug(const char* file, int line, const char* format, ...)
 {
 	try{
-		char buf[1024];
+		char buf[1024] = {0};
 		va_list ap;
 		va_start(ap, format);
 		//_vsntprintf_s(buf, 1024, format, ap);
@@ -362,7 +369,7 @@ void log_debug(const char* file, int line, const char* format, ...)
 void log_debug_w(const char* file, int line, const wchar_t* format, ...)
 {
 	try{
-		wchar_t buf[1024];
+		wchar_t buf[1024] = {0};
 		va_list ap;
 		va_start(ap, format);
 		_vsnwprintf_s(buf, 1024, format, ap);
@@ -389,7 +396,7 @@ void log_debug_w(const char* file, int line, const wchar_t* format, ...)
 void log_error(const char* file, int line, const char* format, ...)
 {
 	try{
-		char buf[1024];
+		char buf[1024] = {0};
 		va_list ap;
 		va_start(ap, format);
 		_vsnprintf_s(buf, 1024, format, ap);
@@ -413,7 +420,7 @@ void log_error(const char* file, int line, const char* format, ...)
 void log_error_w(const char* file, int line, const wchar_t* format, ...)
 {
 	try{
-		wchar_t buf[1024];
+		wchar_t buf[1024] = {0};
 		va_list ap;
 		va_start(ap, format);
 		_vsnwprintf_s(buf, 1024, format, ap);
